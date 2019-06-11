@@ -1,0 +1,21 @@
+#this CMakeLists.txt is use in tx2, first you need install jetson-inference
+cmake_minimum_required(VERSION 2.8)
+
+PROJECT(mnist_test)
+SET(CMAKE_CXX_STANDARD 11)
+FIND_PACKAGE(OpenCV REQUIRED)
+FIND_PACKAGE(jetson-utils)
+FIND_PACKAGE(jetson-inference)
+
+find_package(CUDA)
+find_package(Qt4)
+
+include(${QT_USE_FILE})
+add_definitions(${QT_DEFINITIONS})
+
+INCLUDE_DIRECTORIES(./include
+		    ${CUDA_INCLUDE_DIRS}
+                    )
+AUX_SOURCE_DIRECTORY(src SRC_LIST)
+ADD_EXECUTABLE(${PROJECT_NAME} ${SRC_LIST})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${OpenCV_LIBS} jetson-inference ${CUDA_LIBRARIES})
